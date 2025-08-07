@@ -476,12 +476,13 @@ def render_step_progress(current_step: int, total_steps: int = 6):
     """, unsafe_allow_html=True)
 
 def render_quality_badge():
-    """品質バッジ表示"""
+    """品質バッジ表示（Streamlit Cloud対応）"""
+    # 固定位置を避けて通常の要素として配置
     st.markdown("""
-    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
-        <div style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold; font-size: 0.9rem; box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);">
+    <div style="text-align: right; margin: 10px 0;">
+        <span style="background: linear-gradient(135deg, #22c55e, #16a34a); color: white; padding: 0.3rem 0.8rem; border-radius: 15px; font-weight: bold; font-size: 0.8rem; box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3); display: inline-block;">
             💎 Diamond Grade
-        </div>
+        </span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -500,9 +501,9 @@ def render_tonosama_footer():
     """, unsafe_allow_html=True)
 
 def render_loading_screen(message: str = "システム初期化中..."):
-    """ローディング画面"""
+    """ローディング画面（Streamlit Cloud対応）"""
     st.markdown(f"""
-    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.95); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999;">
+    <div style="text-align: center; padding: 4rem 2rem; background: rgba(15, 23, 42, 0.95); border-radius: 16px; margin: 2rem 0;">
         <div style="font-size: 4rem; margin-bottom: 2rem; animation: pulse 2s infinite;">🏮</div>
         <div class="diamond-gradient" style="font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">
             TONOSAMA Professional
@@ -510,7 +511,7 @@ def render_loading_screen(message: str = "システム初期化中..."):
         <div style="color: #22c55e; font-size: 1.2rem; margin-bottom: 2rem;">
             {message}
         </div>
-        <div class="pulse" style="width: 200px; height: 4px; background: linear-gradient(135deg, #22c55e, #3b82f6, #8b5cf6); border-radius: 2px;"></div>
+        <div class="pulse" style="width: 200px; height: 4px; background: linear-gradient(135deg, #22c55e, #3b82f6, #8b5cf6); border-radius: 2px; margin: 0 auto;"></div>
     </div>
     """, unsafe_allow_html=True)
 

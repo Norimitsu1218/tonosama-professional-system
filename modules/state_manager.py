@@ -420,10 +420,18 @@ def get_state_manager() -> StateManager:
     return state_manager
 
 def initialize_tonosama_ui():
-    """TONOSAMA UIの完全初期化"""
+    """TONOSAMA UIの完全初期化（Streamlit Cloud対応）"""
     state_manager = get_state_manager()
-    state_manager.initialize_ui()
     
     if UI_STYLING_AVAILABLE:
+        # ダイヤモンド級CSS注入
+        inject_diamond_css()
+        inject_custom_metrics_style()
+        
         # TONOSAMAヘッダー表示
         render_tonosama_header()
+        
+        # 品質バッジ（非固定位置）
+        render_quality_badge()
+    else:
+        logger.warning("UIスタイリングモジュールが利用できません")
