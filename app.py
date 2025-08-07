@@ -174,6 +174,31 @@ st.markdown("""
         padding: 1rem;
         text-align: center;
     }
+    
+    /* 🏮 TONOSAMA Professional Sidebar - Diamond Grade */
+    .css-1d391kg, [data-testid="stSidebar"] > div:first-child {
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #111827 100%) !important;
+        border-right: 2px solid rgba(34, 197, 94, 0.3) !important;
+        box-shadow: inset -5px 0 15px rgba(0,0,0,0.3) !important;
+    }
+    
+    /* サイドバー内のコンテンツの背景を透明に */
+    .css-1lcbmhc, [data-testid="stSidebar"] .element-container {
+        background: transparent !important;
+    }
+    
+    /* サイドバーのスクロールバー */
+    [data-testid="stSidebar"] ::-webkit-scrollbar {
+        width: 8px;
+    }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-track {
+        background: rgba(31, 41, 55, 0.5);
+        border-radius: 4px;
+    }
+    [data-testid="stSidebar"] ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        border-radius: 4px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -256,29 +281,59 @@ class TONOSAMAApp:
     def render_sidebar(self) -> str:
         """サイドバーナビゲーション"""
         with st.sidebar:
-            st.markdown("### 🧭 ナビゲーション")
+            # 🏮 TONOSAMA Professional Navigation - Diamond Grade
+            st.markdown("""
+            <div style="margin-bottom: 2rem;">
+                <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05)); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 15px; margin-bottom: 1.5rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏮</div>
+                    <div style="color: #22c55e; font-weight: bold; font-size: 1.3rem;">TONOSAMA Professional</div>
+                    <div style="color: #8b5cf6; font-size: 0.9rem; margin-top: 0.3rem;">1兆円ダイヤモンド級品質</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
             
-            # ページ選択
             selected = option_menu(
-                menu_title=None,
+                menu_title="🧭 ナビゲーション",
                 options=list(self.pages.keys()),
                 icons=[
-                    "house", "shop", "pencil-square", "grid-3x3-gap", 
-                    "bar-chart", "robot", "stars", "gear"
+                    "house-fill", "shop-window", "journal-text", "grid-3x3-gap-fill", 
+                    "graph-up-arrow", "robot", "stars", "gear-fill"
                 ],
                 default_index=0,
                 orientation="vertical",
                 styles={
-                    "container": {"padding": "0!important", "background-color": "transparent"},
-                    "icon": {"color": "#22c55e", "font-size": "18px"},
-                    "nav-link": {
-                        "font-size": "14px",
-                        "text-align": "left", 
-                        "margin": "2px",
-                        "padding": "10px",
-                        "border-radius": "10px"
+                    "container": {
+                        "padding": "1rem!important", 
+                        "background": "linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(31, 41, 55, 0.9))",
+                        "border-radius": "15px",
+                        "border": "1px solid rgba(34, 197, 94, 0.2)",
+                        "box-shadow": "0 10px 30px rgba(0,0,0,0.3)"
                     },
-                    "nav-link-selected": {"background-color": "#22c55e"}
+                    "icon": {
+                        "color": "#22c55e", 
+                        "font-size": "20px",
+                        "margin-right": "12px"
+                    },
+                    "nav-link": {
+                        "font-size": "15px",
+                        "text-align": "left",
+                        "margin": "2px 0",
+                        "padding": "14px 18px",
+                        "background-color": "transparent",
+                        "color": "#d1d5db",
+                        "border-radius": "12px",
+                        "transition": "all 0.3s ease",
+                        "border": "1px solid transparent",
+                        "font-weight": "500"
+                    },
+                    "nav-link-selected": {
+                        "background": "linear-gradient(135deg, #22c55e, #16a34a)",
+                        "color": "white",
+                        "font-weight": "bold",
+                        "border": "1px solid #16a34a",
+                        "box-shadow": "0 5px 15px rgba(34, 197, 94, 0.4)",
+                        "transform": "translateX(4px)"
+                    }
                 }
             )
             
@@ -291,9 +346,13 @@ class TONOSAMAApp:
             return self.pages[selected]
     
     def render_system_status(self):
-        """システム状態表示"""
-        st.markdown("---")
-        st.markdown("### 📊 システム状態")
+        """システム状態表示 - Diamond Grade"""
+        st.markdown("""
+        <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 15px;">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1rem;">📊 システム状態</span>
+            </div>
+        """, unsafe_allow_html=True)
         
         current_state = self.state_manager.get_state()
         
@@ -301,20 +360,29 @@ class TONOSAMAApp:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.metric(
-                label="完了ステップ",
-                value=f"{current_state.current_step}/6",
-                delta=None
-            )
+            # 完了ステップ
+            progress_percentage = (current_state.current_step / 6) * 100
+            st.markdown(f"""
+            <div style="text-align: center; padding: 1rem; background: rgba(34, 197, 94, 0.1); border-radius: 10px; margin-bottom: 0.5rem;">
+                <div style="color: #22c55e; font-size: 1.5rem; font-weight: bold;">{current_state.current_step}/6</div>
+                <div style="color: #d1d5db; font-size: 0.9rem;">完了ステップ</div>
+                <div style="width: 100%; background: rgba(34, 197, 94, 0.2); border-radius: 5px; margin-top: 0.5rem;">
+                    <div style="width: {progress_percentage}%; background: linear-gradient(135deg, #22c55e, #16a34a); height: 4px; border-radius: 5px;"></div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
         
         with col2:
             # メニュー数
             menu_count = len(current_state.menu) if current_state.menu else 0
-            st.metric(
-                label="メニュー数",
-                value=menu_count,
-                delta=None
-            )
+            st.markdown(f"""
+            <div style="text-align: center; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 10px; margin-bottom: 0.5rem;">
+                <div style="color: #3b82f6; font-size: 1.5rem; font-weight: bold;">{menu_count}</div>
+                <div style="color: #d1d5db; font-size: 0.9rem;">登録メニュー数</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("</div>", unsafe_allow_html=True)
         
         # 状態チェックリスト
         st.markdown("#### ✅ 完了状況")
