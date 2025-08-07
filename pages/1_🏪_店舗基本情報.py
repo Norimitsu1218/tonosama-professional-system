@@ -6,7 +6,7 @@
 """
 
 import streamlit as st
-from modules.state_manager import get_state_manager
+from modules.state_manager import get_state_manager, initialize_tonosama_ui
 import logging
 
 # ログ設定
@@ -468,6 +468,9 @@ def render_validation_and_navigation():
 def main():
     """メイン関数"""
     try:
+        # UI初期化（緊急対応）
+        initialize_tonosama_ui()
+        
         # ページヘッダー
         st.markdown("# 🏪 Step1: 店舗基本情報・アクセス登録")
         

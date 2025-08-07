@@ -6,7 +6,7 @@
 """
 
 import streamlit as st
-from modules.state_manager import get_state_manager
+from modules.state_manager import get_state_manager, initialize_tonosama_ui
 from modules.openai_integration import get_openai_integration
 from modules.csv_generator import get_csv_generator
 import logging
@@ -482,6 +482,9 @@ def render_validation_and_navigation():
 def main():
     """メイン関数"""
     try:
+        
+        # UI初期化（緊急対応）
+        initialize_tonosama_ui()
         # ページヘッダー
         st.markdown("# 🤖 Step5: AI食レポ・14言語完全対応")
         

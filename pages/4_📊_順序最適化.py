@@ -6,7 +6,7 @@ AI提案・ドラッグ&ドロップ対応・外国人観光客配慮
 """
 
 import streamlit as st
-from modules.state_manager import get_state_manager
+from modules.state_manager import get_state_manager, initialize_tonosama_ui
 from modules.openai_integration import get_openai_integration
 import logging
 import asyncio
@@ -399,6 +399,9 @@ def render_validation_and_navigation():
 def main():
     """メイン関数"""
     try:
+        
+        # UI初期化（緊急対応）
+        initialize_tonosama_ui()
         # ページヘッダー
         st.markdown("# 📊 Step4: 順序最適化・外国人観光客配慮")
         

@@ -6,7 +6,7 @@
 """
 
 import streamlit as st
-from modules.state_manager import get_state_manager
+from modules.state_manager import get_state_manager, initialize_tonosama_ui
 from modules.csv_generator import get_csv_generator
 import logging
 from typing import List, Dict
@@ -459,6 +459,9 @@ def render_validation_and_navigation():
 def main():
     """メイン関数"""
     try:
+        
+        # UI初期化（緊急対応）
+        initialize_tonosama_ui()
         # ページヘッダー
         st.markdown("# 🍽️ Step3: メニュー情報・料理管理")
         

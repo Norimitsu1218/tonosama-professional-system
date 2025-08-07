@@ -6,7 +6,7 @@
 """
 
 import streamlit as st
-from modules.state_manager import get_state_manager
+from modules.state_manager import get_state_manager, initialize_tonosama_ui
 from modules.csv_generator import get_csv_generator
 from modules.google_drive import get_google_drive_integration, render_google_auth_section, create_package_and_upload
 from modules.email_service import get_email_service, send_completion_notification
@@ -523,6 +523,9 @@ def render_final_summary():
 def main():
     """メイン関数"""
     try:
+        
+        # UI初期化（緊急対応）
+        initialize_tonosama_ui()
         # ページヘッダー
         st.markdown("# 🎆 Step6: 完了・プラン選択・自動収益化")
         

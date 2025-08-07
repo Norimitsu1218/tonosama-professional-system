@@ -207,6 +207,10 @@ class TONOSAMAApp:
     def run(self):
         """メインアプリケーション実行"""
         try:
+            # セッション状態確認・初期化（緊急対応）
+            if "tonosama_professional_state" not in st.session_state:
+                self.state_manager._initialize_session_state()
+            
             # ヘッダー表示
             self.render_header()
             

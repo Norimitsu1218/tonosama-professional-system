@@ -416,7 +416,14 @@ class StateManager:
 state_manager = StateManager()
 
 def get_state_manager() -> StateManager:
-    """状態管理インスタンスの取得"""
+    """状態管理インスタンスの取得（セーフ初期化）"""
+    global state_manager
+    
+    # セッションキーが存在しない場合は強制初期化
+    if state_manager.session_key not in st.session_state:
+        logger.info("セッション状態が存在しません - 緊急初期化実行")
+        state_manager._initialize_session_state()
+    
     return state_manager
 
 def initialize_tonosama_ui():
