@@ -1,0 +1,35 @@
+[global]
+
+# TONOSAMA Professional System Configuration
+# 1兆円ダイヤモンド級品質設定
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = false
+maxUploadSize = 200
+
+[browser]
+gatherUsageStats = false
+showErrorDetails = true
+
+[theme]
+primaryColor = "#22c55e"
+backgroundColor = "#0f172a"
+secondaryBackgroundColor = "#1f2937"
+textColor = "#f9fafb"
+font = "sans serif"
+
+[runner]
+magicEnabled = true
+installTracer = false
+fixMatplotlib = true
+
+[client]
+caching = true
+displayEnabled = true
+showErrorDetails = true
+
+[ui]
+hideTopBar = false
+hideSidebarNav = false
