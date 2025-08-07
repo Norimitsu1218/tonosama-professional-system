@@ -47,8 +47,12 @@ def render_basic_info_section():
     """基本情報セクション"""
     st.markdown("### 🏪 基本情報")
     
-    state_manager = get_state_manager()
-    current_state = state_manager.get_state()
+    try:
+        state_manager = get_state_manager()
+        current_state = state_manager.get_state()
+    except Exception as e:
+        st.error(f"状態取得エラー: {e}")
+        return
     
     col1, col2 = st.columns(2)
     
@@ -122,8 +126,12 @@ def render_contact_info_section():
     """連絡先情報セクション"""
     st.markdown("### 📞 連絡先・WEB情報")
     
-    state_manager = get_state_manager()
-    current_state = state_manager.get_state()
+    try:
+        state_manager = get_state_manager()
+        current_state = state_manager.get_state()
+    except Exception as e:
+        st.error(f"状態取得エラー: {e}")
+        return
     
     col1, col2 = st.columns(2)
     
@@ -233,8 +241,12 @@ def render_access_info_section():
     """アクセス情報セクション"""
     st.markdown("### 📍 アクセス・営業時間情報")
     
-    state_manager = get_state_manager()
-    current_state = state_manager.get_state()
+    try:
+        state_manager = get_state_manager()
+        current_state = state_manager.get_state()
+    except Exception as e:
+        st.error(f"状態取得エラー: {e}")
+        return
     
     col1, col2 = st.columns(2)
     
@@ -330,8 +342,12 @@ def render_facility_info_section():
     st.markdown("### ♿ 対応・設備情報（AI処理最適化）")
     st.info("この情報は外国人観光客の事前計画と、AI食レポ生成の精度向上に使用されます")
     
-    state_manager = get_state_manager()
-    current_state = state_manager.get_state()
+    try:
+        state_manager = get_state_manager()
+        current_state = state_manager.get_state()
+    except Exception as e:
+        st.error(f"状態取得エラー: {e}")
+        return
     
     # 車椅子対応
     st.markdown("#### 🚪 バリアフリー対応")
@@ -409,8 +425,12 @@ def render_validation_and_navigation():
     """バリデーションとナビゲーション"""
     st.markdown("---")
     
-    state_manager = get_state_manager()
-    current_state = state_manager.get_state()
+    try:
+        state_manager = get_state_manager()
+        current_state = state_manager.get_state()
+    except Exception as e:
+        st.error(f"状態取得エラー: {e}")
+        return
     
     # バリデーション
     errors = state_manager.validate_state()
@@ -473,6 +493,17 @@ def main():
         
         # ページヘッダー
         st.markdown("# 🏪 Step1: 店舗基本情報・アクセス登録")
+        
+        # 状態管理確認
+        try:
+            state_manager = get_state_manager()
+        except Exception as e:
+            st.error(f"状態管理エラー: {e}")
+            return
+        
+        if not state_manager:
+            st.error("状態管理システムの初期化に失敗しました")
+            return
         
         # 目的説明
         render_purpose_explanation()

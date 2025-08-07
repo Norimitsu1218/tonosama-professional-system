@@ -135,8 +135,20 @@ class StateManager:
             self._auto_backup()
     
     def get_state(self) -> SystemState:
-        """現在の状態を取得"""
-        return st.session_state[self.session_key]
+        """現在の状態を取得（セーフガード付き）"""
+        try:
+            # セッションキーが存在しない場合は初期化
+            if self.session_key not in st.session_state:
+                logger.warning(f"セッション状態キー'{self.session_key}'が存在しません - 初期化実行")
+                self._initialize_session_state()
+            
+            return st.session_state[self.session_key]
+            
+        except Exception as e:
+            logger.error(f"状態取得エラー: {e}")
+            # 緊急時の初期化
+            self._initialize_session_state()
+            return st.session_state[self.session_key]
     
     def update_state(self, **kwargs) -> None:
         """状態の更新"""
@@ -416,29 +428,51 @@ class StateManager:
 state_manager = StateManager()
 
 def get_state_manager() -> StateManager:
-    """状態管理インスタンスの取得（セーフ初期化）"""
+    """状態管理インスタンスの取得（完全セーフ初期化）"""
     global state_manager
+    
+    # グローバルインスタンスが未初期化の場合
+    if 'state_manager' not in globals() or state_manager is None:
+        logger.info("グローバルstate_manager未初期化 - 新規作成")
+        state_manager = StateManager()
     
     # セッションキーが存在しない場合は強制初期化
     if state_manager.session_key not in st.session_state:
         logger.info("セッション状態が存在しません - 緊急初期化実行")
-        state_manager._initialize_session_state()
+        try:
+            state_manager._initialize_session_state()
+        except Exception as e:
+            logger.error(f"初期化エラー: {e}")
+            # 完全に新しいインスタンスを作成
+            state_manager = StateManager()
+            state_manager._initialize_session_state()
     
     return state_manager
 
 def initialize_tonosama_ui():
     """TONOSAMA UIの完全初期化（Streamlit Cloud対応）"""
-    state_manager = get_state_manager()
-    
-    if UI_STYLING_AVAILABLE:
-        # ダイヤモンド級CSS注入
-        inject_diamond_css()
-        inject_custom_metrics_style()
+    try:
+        # まず状態管理を確実に初期化
+        state_manager = get_state_manager()
         
-        # TONOSAMAヘッダー表示
-        render_tonosama_header()
-        
-        # 品質バッジ（非固定位置）
-        render_quality_badge()
-    else:
-        logger.warning("UIスタイリングモジュールが利用できません")
+        if UI_STYLING_AVAILABLE:
+            # ダイヤモンド級CSS注入
+            inject_diamond_css()
+            inject_custom_metrics_style()
+            
+            # TONOSAMAヘッダー表示（状態が安定してから）
+            current_state = state_manager.get_state()
+            render_tonosama_header()
+            
+            # 品質バッジ（非固定位置）
+            render_quality_badge()
+            
+            logger.info("TONOSAMA UI初期化完了")
+        else:
+            logger.warning("UIスタイリングモジュールが利用できません")
+            
+    except Exception as e:
+        logger.error(f"UI初期化エラー: {e}")
+        # 基本的な表示だけでも確保
+        st.markdown("# 🏮 TONOSAMA Professional System")
+        st.error("UI初期化に問題がありました。基本機能は動作します。")
